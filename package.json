@@ -1,0 +1,35 @@
+{
+  "name": "markrun-compile-webpack",
+  "version": "0.1.0",
+  "description": "markrun compile webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markrun/markrun-compile-webpack.git"
+  },
+  "keywords": [
+    "markruncompile",
+    "markrun",
+    "webpack",
+    "markdown"
+  ],
+  "author": "nimojs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/markrun/markrun-compile-webpack/issues"
+  },
+  "homepage": "https://github.com/markrun/markrun-compile-webpack#readme",
+  "dependencies": {
+    "deasync": "^0.1.8",
+    "extend": "^3.0.0",
+    "memory-fs": "^0.3.0",
+    "proxy-fs": "0.0.10"
+  },
+  "devDependencies": {
+    "markrun": "^0.3.0",
+    "webpack": "^1.13.3"
+  }
+}
