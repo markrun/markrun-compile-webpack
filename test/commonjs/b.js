@@ -1,0 +1,3 @@
+mdoule.exports = {
+    name: 'b'
+}

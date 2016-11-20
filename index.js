@@ -1,9 +1,11 @@
+var path = require('path')
+
 var deasync = require('deasync')
 var MemoryFS = require("memory-fs")
 var ProxyFileSystem = require('proxy-fs')
-var path = require('path')
-var mfs = new MemoryFS()
 var extend = require('extend')
+
+var mfs = new MemoryFS()
 /*
  * @param {object} settings
  * @param {string} settings.filepath  "/user/nimo/Document/some/a.js"
@@ -11,7 +13,11 @@ var extend = require('extend')
  * @param {string} settings.content `console.log(1)`
  * @return {string}
  */
-var compile = deasync(function (props, callback) {
+var compile = deasync(function (settings, callback) {
+    if (typeof settings.content !== 'string') {
+        throw new Error('settings.content need to be a string')
+    }
+    settings.webpackConfig = settings.webpackConfig || {}
     var webpackConfig = extend(true, {
         hash: false,
         timings: false,
@@ -34,7 +40,7 @@ var compile = deasync(function (props, callback) {
     mfs.mkdirpSync(path.dirname(settings.filepath))
     mfs.writeFileSync(settings.filepath, settings.content)
 
-    var compiler = props.webpack(webpackConfig)
+    var compiler = settings.webpack(webpackConfig)
     compiler.inputFileSystem = new ProxyFileSystem(function (readpath) {
         if (readpath == settings.filepath) {
             return {
@@ -54,30 +60,10 @@ var compile = deasync(function (props, callback) {
             return
         }
         // 输出
-        callback(null ,mfs.data['output.js'].toString())
+        callback(null ,{
+            code: mfs.data['output.js'].toString(),
+            stats: stats
+        })
     })
 })
-
-/*
- * @param {Object} props.webpackConfig
- * @param {String} props.filepath "/user/nimo/Document/some/a.js"
- * @param {npm package} webpack
- */
-module.exports = function (props) {
-    return function(source, data) {
-        // TODO: return fileDependencies map
-        return {
-            lang: 'js',
-
-            code: compile(
-                extend(
-                    true,
-                    props,
-                    {
-                        content: source
-                    }
-                )
-            )
-        }
-    }
-}
+module.exports = compile
