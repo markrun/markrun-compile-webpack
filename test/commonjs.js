@@ -25,7 +25,7 @@ describe('commonjs.js', function() {
             })
             // fs.writeFileSync(jspath + '.output.js', output.code)
             assert.equal(output.code, fs.readFileSync(jspath + '.output.js').toString())
-            assert.equal(JSON.stringify(output.stats.compilation.fileDependencies), '["/Users/nimo/Documents/git/markrun-compile-webpack/node_modules/css-loader/lib/css-base.js","/Users/nimo/Documents/git/markrun-compile-webpack/node_modules/style-loader/addStyles.js","/Users/nimo/Documents/git/markrun-compile-webpack/test/commonjs/a.css","/Users/nimo/Documents/git/markrun-compile-webpack/test/commonjs/a.js","/Users/nimo/Documents/git/markrun-compile-webpack/test/commonjs/b.js","/Users/nimo/Documents/git/markrun-compile-webpack/test/commonjs/index.js"]')
+            assert.equal(Array.isArray(output.stats.compilation.fileDependencies), true)
         })
     })
 })
